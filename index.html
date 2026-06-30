@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Friends Letter — Daero · StayBUT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;--ink:#13110f;--grey:#7c776f;--line:#16140f;--hair:#dcd8d0;--accent:#c0451f;
+    --pad:22px;
+  }
+  img{max-width:100%;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:"IBM Plex Sans KR",sans-serif;font-weight:400;line-height:1.85;font-size:15.5px;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  .wrap{max-width:620px;margin:0 auto;padding:0 var(--pad);}
+
+  .topbar{
+    border-bottom:2px solid var(--line);display:flex;justify-content:space-between;align-items:center;
+    padding:16px var(--pad);max-width:620px;margin:0 auto;
+  }
+  .topbar .b{font-family:"Archivo",sans-serif;font-weight:800;letter-spacing:.02em;font-size:15px;text-transform:uppercase;}
+  .langbar{display:flex;gap:0;}
+  .langbar button{border:0;background:none;font-family:"Archivo",sans-serif;font-weight:600;font-size:11px;letter-spacing:.04em;color:var(--grey);cursor:pointer;padding:3px 7px;border-left:1px solid var(--hair);}
+  .langbar button:first-child{border-left:0;}
+  .langbar button.on{color:var(--accent);font-weight:800;}
+
+  .cover{padding:40px 0 30px;}
+  .cover .tag{font-family:"Archivo",sans-serif;font-weight:600;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:22px;}
+  .cover h1{font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(56px,21vw,108px);line-height:.92;letter-spacing:-.02em;text-transform:uppercase;}
+  .cover .ko{font-weight:700;font-size:26px;margin-top:14px;letter-spacing:.02em;}
+  .cover .specs{display:flex;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:30px;}
+  .cover .specs div{flex:1;padding:14px 0;border-left:1px solid var(--hair);font-family:"Archivo",sans-serif;font-weight:600;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);text-align:center;}
+  .cover .specs div:first-child{border-left:0;}
+  .cover .specs strong{display:block;color:var(--ink);font-size:13px;margin-top:3px;}
+  .lead{font-family:"Noto Serif KR",serif;font-size:21px;line-height:1.85;font-weight:400;padding:34px 0 4px;letter-spacing:-.01em;}
+
+  .index{border-top:2px solid var(--line);margin-top:30px;}
+  .index a{display:flex;align-items:baseline;gap:16px;padding:15px 0;border-bottom:1px solid var(--hair);text-decoration:none;color:var(--ink);}
+  .index .no{font-family:"Archivo",sans-serif;font-weight:800;font-size:13px;color:var(--accent);min-width:26px;}
+  .index .t{font-weight:500;font-size:16px;flex:1;}
+  .index .en{font-family:"Archivo",sans-serif;font-weight:600;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);}
+
+  section{padding:58px 0;}
+  .head{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--line);padding-bottom:12px;margin-bottom:28px;}
+  .head .no{font-family:"Archivo",sans-serif;font-weight:800;font-size:34px;color:var(--accent);line-height:1;}
+  .head .titles .en{font-family:"Archivo",sans-serif;font-weight:600;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);}
+  .head .titles .ko{font-weight:700;font-size:20px;line-height:1.2;margin-top:2px;}
+
+  p{margin-bottom:20px;font-weight:300;}
+  p:last-child{margin-bottom:0;}
+  .place{font-weight:700;color:var(--ink);border-bottom:2px solid var(--accent);padding-bottom:1px;}
+
+  .photo{
+    position:relative;aspect-ratio:4/3;margin:6px 0 8px;border:1px solid var(--hair);overflow:hidden;
+    background:repeating-linear-gradient(135deg,#f1ede6 0 14px,#ebe6dd 14px 28px);
+  }
+  .photo.bleed{margin-left:calc(-1*var(--pad));margin-right:calc(-1*var(--pad));border-left:0;border-right:0;}
+  .photo.tall{aspect-ratio:4/5;}
+  .photo .ph-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .photo.duo{aspect-ratio:auto;background:none;border:0;overflow:visible;display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+  .photo.duo .half{position:relative;aspect-ratio:3/4;border:1px solid var(--hair);overflow:hidden;background:repeating-linear-gradient(135deg,#f1ede6 0 14px,#ebe6dd 14px 28px);}
+  .photo.duo .half img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .photo .lab{position:absolute;left:0;bottom:0;z-index:2;font-family:"Archivo",sans-serif;font-weight:600;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey);background:var(--bg);padding:6px 10px;margin:14px;border:1px solid var(--hair);}
+  .cap{font-family:"Archivo",sans-serif;font-weight:600;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);display:flex;gap:8px;margin-bottom:26px;}
+  .cap b{color:var(--accent);}
+
+  .pull{font-family:"Noto Serif KR",serif;font-size:22px;line-height:1.7;font-weight:600;border-left:3px solid var(--accent);padding:6px 0 6px 18px;margin:34px 0;}
+
+  .playlist{border:2px solid var(--line);margin-top:30px;}
+  .playlist .ph{display:flex;justify-content:space-between;align-items:center;background:var(--ink);color:#fff;padding:14px 18px;}
+  .playlist .ph .t{font-weight:700;font-size:15px;}
+  .playlist .ph .en{font-family:"Archivo",sans-serif;font-weight:600;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#b8b2a8;}
+  .playlist ol{list-style:none;counter-reset:s;}
+  .playlist li{counter-increment:s;display:flex;gap:14px;align-items:baseline;padding:13px 18px;border-bottom:1px solid var(--hair);font-weight:500;}
+  .playlist li:last-child{border-bottom:0;}
+  .playlist li::before{content:counter(s,decimal-leading-zero);font-family:"Archivo",sans-serif;font-weight:700;font-size:11px;color:var(--accent);min-width:22px;}
+  .playlist li .art{margin-left:auto;font-family:"Archivo",sans-serif;font-weight:600;font-size:11px;letter-spacing:.06em;color:var(--grey);text-transform:uppercase;}
+  .pl-link{display:flex;justify-content:center;align-items:center;gap:8px;border-top:2px solid var(--line);padding:16px 18px;background:#faf7f2;font-family:"Archivo",sans-serif;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);text-decoration:none;transition:background .2s,color .2s;}
+  .pl-link:hover{background:var(--accent);color:#fff;}
+
+  .closing{border-top:2px solid var(--line);padding:46px 0 56px;}
+  .closing p{font-weight:300;font-size:16px;margin-bottom:24px;}
+
+  .gb-head{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--line);padding-bottom:12px;margin-bottom:24px;}
+  .gb-head .no{font-family:"Archivo",sans-serif;font-weight:800;font-size:34px;color:var(--accent);line-height:1;}
+  .gb-head .en{font-family:"Archivo",sans-serif;font-weight:600;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);}
+  .gb-head .ko{font-weight:700;font-size:20px;line-height:1.2;margin-top:2px;}
+  .gb-form{border:2px solid var(--line);padding:18px;margin:24px 0 34px;}
+  .gb-form label{display:block;font-family:"Archivo",sans-serif;font-weight:600;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);margin-bottom:6px;}
+  .gb-form input,.gb-form textarea{width:100%;border:1px solid var(--hair);background:#faf7f2;padding:11px 12px;font-family:inherit;font-size:15px;color:var(--ink);margin-bottom:14px;resize:none;line-height:1.6;}
+  .gb-form input:focus,.gb-form textarea:focus{outline:none;border-color:var(--accent);}
+  .gb-form .row{display:flex;justify-content:space-between;align-items:center;}
+  .gb-form .count{font-family:"Archivo",sans-serif;font-size:11px;color:var(--grey);}
+  .gb-form button{border:0;background:var(--ink);color:#fff;font-family:inherit;font-weight:700;font-size:14px;padding:12px 22px;cursor:pointer;letter-spacing:.02em;}
+  .gb-form button:disabled{opacity:.35;cursor:default;}
+  .gb-thanks{border:2px solid var(--accent);padding:24px 18px;text-align:center;}
+  .gb-thanks .big{font-family:"Noto Serif KR",serif;font-size:18px;}
+  .gb-list{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 22px;margin-top:14px;}
+  @media(max-width:480px){.gb-list{grid-template-columns:1fr;}}
+  .gb-entry{display:flex;flex-direction:column;border:1px solid var(--hair);padding:15px 16px;cursor:pointer;transition:border-color .15s;}
+  .gb-entry:hover{border-color:var(--ink);}
+  .gb-entry .msg{font-family:"Noto Serif KR",serif;font-weight:400;font-size:14px;line-height:1.7;color:var(--ink);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;}
+  .gb-entry .by{font-family:"Archivo",sans-serif;font-weight:600;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);margin-top:auto;padding-top:12px;}
+  .gb-entry .by .nm{color:var(--accent);}
+  .gb-empty{grid-column:1/-1;color:var(--grey);font-weight:300;font-size:14px;padding:26px 0;text-align:center;}
+  #gbOv{position:fixed;inset:0;background:rgba(19,17,15,.74);display:none;align-items:center;justify-content:center;padding:30px;z-index:50;}
+  #gbOv.on{display:flex;}
+  #gbOvc{background:#fff;max-width:380px;width:100%;padding:40px 32px;box-shadow:0 20px 50px rgba(0,0,0,.4);}
+  #gbOvc .msg{font-family:"Noto Serif KR",serif;font-size:21px;line-height:1.7;color:var(--ink);}
+  #gbOvc .by{font-family:"Archivo",sans-serif;font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);margin-top:20px;}
+  #gbOvc .by .nm{color:var(--accent);}
+
+  footer{background:var(--ink);color:#fff;text-align:center;padding:46px var(--pad) 56px;margin-top:20px;}
+  footer .sig{font-family:"Noto Serif KR",serif;font-size:18px;margin-bottom:18px;}
+  footer .b{font-family:"Archivo",sans-serif;font-weight:800;font-size:13px;letter-spacing:.22em;text-transform:uppercase;}
+  footer .sub{font-family:"Archivo",sans-serif;font-weight:600;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#9a948a;margin-top:8px;}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:.8s ease;}
+  .reveal.in{opacity:1;transform:none;}
+
+  /* ===================== 모바일 표준화 ===================== */
+  @media (max-width:640px){
+    :root{--pad:20px;}
+    body{font-size:15px;line-height:1.8;}
+    .cover{padding:30px 0 24px;}
+    .cover .ko{font-size:23px;margin-top:12px;}
+    .cover .specs{margin-top:24px;}
+    .lead{font-size:19px;padding:28px 0 4px;}
+    section{padding:44px 0;}
+    .head{margin-bottom:24px;}
+    .head .no,.gb-head .no{font-size:30px;}
+    .head .titles .ko,.gb-head .ko{font-size:18px;}
+    .pull{font-size:20px;margin:28px 0;}
+    .closing{padding:38px 0 46px;}
+    .closing p{font-size:15px;}
+    footer{padding:40px var(--pad) 48px;}
+  }
+  @media (max-width:400px){
+    :root{--pad:16px;}
+    .topbar{padding:14px var(--pad);}
+    .topbar .b{font-size:14px;}
+    .langbar button{padding:3px 5px;font-size:10px;}
+    .cover{padding:24px 0 20px;}
+    .cover .ko{font-size:21px;}
+    .cover .specs div{font-size:10px;padding:12px 0;}
+    .cover .specs strong{font-size:12px;}
+    .lead{font-size:18px;}
+    section{padding:38px 0;}
+    .head .no,.gb-head .no{font-size:26px;}
+    .head .titles .ko,.gb-head .ko{font-size:17px;}
+    .pull{font-size:19px;}
+    .playlist li{padding:12px 14px;}
+    .playlist .ph{padding:12px 14px;}
+    .gb-form{padding:16px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+  }
+</style>
+<script>
+  function gbImgFallback(img, seed){
+    if(!img.dataset.s){ img.dataset.s='1'; img.src='https://picsum.photos/seed/'+seed+'/900/650'; }
+    else { img.onerror=null; img.src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='900'%20height='650'%3E%3Crect%20width='900'%20height='650'%20fill='%23ece6da'/%3E%3C/svg%3E"; }
+  }
+</script>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="b">Stay&nbsp;But</div>
+    <div class="langbar" id="langbar">
+      <button data-lang="ko" class="on">KO</button>
+      <button data-lang="en">EN</button>
+      <button data-lang="ja">日</button>
+      <button data-lang="zh">中</button>
+      <button data-lang="es">ES</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="cover reveal">
+      <div class="tag" data-i18n="cover_tag">이 방의 주인</div>
+      <h1>Daero</h1>
+      <div class="ko" data-i18n="cover_sub">Daero — 성수의 친구</div>
+      <div class="specs">
+        <div><span data-i18n="lbl_age">나이</span><strong data-i18n="val_age">30대</strong></div>
+        <div><span data-i18n="lbl_city">도시</span><strong data-i18n="val_city">서울</strong></div>
+        <div><span data-i18n="lbl_area">지역</span><strong data-i18n="val_area">성수</strong></div>
+      </div>
+      <p class="lead" data-i18n="lead">“현지 친구가 최고의 여행 가이드라고 생각합니다.”</p>
+    </div>
+
+    <nav class="index reveal">
+      <a href="#about"><span class="no">01</span><span class="t" data-i18n="idx_about">이 방의 주인이 된 이유</span><span class="en">About</span></a>
+      <a href="#food"><span class="no">02</span><span class="t" data-i18n="idx_food">제가 좋아하는 한 끼</span><span class="en">Food</span></a>
+      <a href="#coffee"><span class="no">03</span><span class="t" data-i18n="idx_coffee">하루 한 잔의 기준</span><span class="en">Coffee</span></a>
+      <a href="#place"><span class="no">04</span><span class="t" data-i18n="idx_place">성수에서 아끼는 곳</span><span class="en">Place</span></a>
+      <a href="#music"><span class="no">05</span><span class="t" data-i18n="idx_music">드라이브할 때 듣는 음악</span><span class="en">Music</span></a>
+      <a href="#guestbook"><span class="no">06</span><span class="t" data-i18n="idx_guestbook">머문 분들의 한마디</span><span class="en">Guestbook</span></a>
+    </nav>
+  </div>
+
+  <div class="wrap">
+    <section id="about" class="reveal">
+      <div class="head"><div class="no">01</div><div class="titles"><div class="en">About</div><div class="ko" data-i18n="idx_about">이 방의 주인이 된 이유</div></div></div>
+      <div class="photo bleed"><!-- 임시 이미지 · 직접 찍은 사진 URL로 src를 교체하세요 --><img class="ph-img" loading="lazy" alt="" src="https://loremflickr.com/900/650/cafe,interior?lock=21" onerror="gbImgFallback(this,'daerospace')"></div>
+      <div class="cap"><b>Portrait</b><span data-i18n="cap_about">대로의 공간, 혹은 성수동의 한 장면</span></div>
+      <p data-i18n="about_p1">공간이 주는 매력을 소소하게 즐기며 살다가, 우연한 기회에 이 숙소를 운영해 보게 되었습니다.</p>
+      <p data-i18n="about_p2">저는 새로운 동네에 여행을 가면 꼭 현지에 사시는 분들에게 평소 먹는 곳과 가는 곳을 물어봅니다. 인스타나 블로그에 나오는 곳이 아니라, 진짜 현지인들이 가는 곳에서만 느껴지는 매력을 찾는 것을 좋아하거든요.</p>
+      <div class="pull" data-i18n="about_pull">현지 친구가 최고의 여행 가이드라고 생각합니다.</div>
+      <p data-i18n="about_p3">이 방에 오신 게스트분들에게도 저의 짧은 이야기가, 잠시 머무는 이곳에서 소소한 여행 가이드가 되길 바라봅니다.</p>
+    </section>
+  </div>
+
+  <div class="wrap">
+    <section id="food" class="reveal">
+      <div class="head"><div class="no">02</div><div class="titles"><div class="en">Food</div><div class="ko" data-i18n="idx_food">제가 좋아하는 한 끼</div></div></div>
+      <p data-i18n="food_p1">저는 평소 단백질 위주의 식사를 좋아합니다. 그래서 점심으로는 제육볶음, 돈가스, 고기가 많이 들어간 국밥을 자주 먹죠.</p>
+      <div class="photo bleed tall"><img class="ph-img" loading="lazy" alt="안목 성수 돼지국밥" src="images/anmok-gukbap.jpg" onerror="gbImgFallback(this,'gukbap')"></div>
+      <div class="cap"><b>01</b><span data-i18n="food_cap1">안목 성수 · 돼지국밥 1인 세트</span></div>
+      <p data-i18n="food_p2">성수동에서 지금까지 제가 만난 가장 인상 깊었던 점심 메뉴는 <span class="place">안목 성수</span>의 돼지국밥입니다. 한때 돼지국밥으로 유명한 부산에 매주 출장을 가야 했던 시기가 있었어요. 그때 택시 기사님들께 여쭤보면서 제 입맛에 맞는 돼지국밥집을 찾아다닐 정도로 좋아하는데, 그런 저에게도 안목은 정말 맛있는 집이었습니다. 1인 세트로 나오는 순대는 웬만한 순댓국 전문점보다 맛있었고요.</p>
+      <div class="photo bleed tall"><img class="ph-img" loading="lazy" alt="안목 성수 수육" src="images/anmok-suyuk.jpg" onerror="gbImgFallback(this,'suyuk')"></div>
+      <div class="cap"><b>02</b><span data-i18n="food_cap1b">안목 성수 · 수육 한 접시</span></div>
+      <p data-i18n="food_p3">저는 국밥을 먹을 때 처음부터 밥을 말지 않습니다. 고기와 흰밥, 김치 삼합을 입에 넣고 국물을 따로 먹는 것을 좋아하거든요. 그러다 고기를 다 먹으면 밥 한 공기를 더 시켜 국물에 말아 먹는데, 저에게는 그게 세상 행복한 점심 시간입니다.</p>
+      <div class="photo bleed tall"><img class="ph-img" loading="lazy" alt="오리지널 팬케이크 하우스" src="images/pancake.jpg" onerror="gbImgFallback(this,'pancake')"></div>
+      <div class="cap"><b>03</b><span data-i18n="food_cap2">The Original Pancake House · 주말 브런치</span></div>
+      <p data-i18n="food_p4">하나 더 말씀드리면, 아내, 딸과 주말 아침에 종종 가는 브런치 집입니다. 여러 곳에 매장이 있는 <span class="place">오리지널 팬케이크 하우스</span>예요. 신혼 때 주말마다 아내와 서울의 맛있는 팬케이크집을 찾아다니다 이곳에 정착했습니다. 든든한 브런치가 당기거나, 주중에 열심히 일한 토요일 아침 가족과 기분 전환을 하고 싶을 때 가는 곳이에요. 광화문·잠실·이태원·가로수길 등 서울 곳곳에 있습니다.</p>
+    </section>
+  </div>
+
+  <div class="wrap">
+    <section id="coffee" class="reveal">
+      <div class="head"><div class="no">03</div><div class="titles"><div class="en">Coffee</div><div class="ko" data-i18n="idx_coffee">하루 한 잔의 기준</div></div></div>
+      <p data-i18n="coffee_p1">저는 하루 딱 한 잔만 커피를 즐깁니다. 그 이상은 숙면에 방해가 돼서, 일상의 리듬을 지키는 데에는 저에게 딱 한 잔이 좋더라고요. 그래서 하루 한 잔, 어떤 커피를 마시느냐가 제 일상에서는 제법 중요한 일입니다.</p>
+      <div class="photo bleed"><img class="ph-img" loading="lazy" alt="PEER 커피 외관" src="images/peer-exterior.jpg" onerror="gbImgFallback(this,'peercoffee')"></div>
+      <div class="cap"><b>Cafe</b><span data-i18n="coffee_cap">PEER · 숙소 근처 · 평일 08:30 open</span></div>
+      <p data-i18n="coffee_p2">성수동에서 가장 인상 깊었던 카페는 숙소 근처의 <span class="place">PEER 커피</span>입니다. 제가 커피 맛을 예민하게 알아차리는 편은 아니지만, 피어에서 처음 마신 아이스 아메리카노는 기분이 꽤 좋아지는 맛이었어요. 무엇보다 평일에는 아침 8시 30분부터 문을 열어서, 대부분의 카페가 아직 닫혀 있는 이른 아침에도 괜찮은 모닝 커피를 즐길 수 있습니다. 참고로 여기 크루아상이 꽤 괜찮아요. 신혼여행으로 갔던 이탈리아 로마에서 크루아상과 따뜻한 라떼를 먹은 뒤로, 저는 이 조합을 무척 좋아합니다.</p>
+      <div class="photo bleed"><img class="ph-img" loading="lazy" alt="PEER 커피 음료" src="images/peer-drinks.jpg" onerror="gbImgFallback(this,'peerdrinks')"></div>
+      <div class="cap"><b>Drink</b><span data-i18n="coffee_cap2">PEER · 아이스 아메리카노</span></div>
+    </section>
+  </div>
+
+  <div class="wrap">
+    <section id="place" class="reveal">
+      <div class="head"><div class="no">04</div><div class="titles"><div class="en">Place</div><div class="ko" data-i18n="idx_place">성수에서 아끼는 곳</div></div></div>
+      <div class="photo bleed tall"><img class="ph-img" loading="lazy" alt="서울숲" src="images/seoulforest.jpg" onerror="gbImgFallback(this,'seoulforest')"></div>
+      <div class="cap"><b>Spot</b><span data-i18n="place_cap">서울숲 · 즐거움 끝의 평안함</span></div>
+      <p data-i18n="place_p1">예전에 다녔던 회사는 서울 곳곳에 사무실이 있었습니다. 그중에서도 성수 사무실로 출근하던 시절, 저의 행복은 바로 <span class="place">서울숲</span>이었어요. 어릴 적 시골에서 자란 저에게 서울이라는 도시는 동경의 대상이었지만, 한편으로는 뭔지 모르게 메마른 느낌이기도 했습니다. 사회 초년생 시절 강남역 근처에서 일할 때는 지치고 힘들어도 마땅히 갈 곳이 없었거든요.</p>
+      <p data-i18n="place_p2">그런데 성수에는 서울숲이 있었습니다. 성수로 출근할 때면 팀 동료들과 서울숲에서 맛있는 것을 시켜 먹거나, 점심 식사 후 산책을 할 수 있어서 행복했어요. 지금도 아내와 성수에 놀러 오면 무조건 서울숲에 들릅니다. 볼거리 가득한 성수를 다 즐기고 서울숲에서 마무리하면, 즐거움 끝에 평안함까지 누릴 수 있어서 좋아요.</p>
+    </section>
+  </div>
+
+  <div class="wrap">
+    <section id="music" class="reveal">
+      <div class="head"><div class="no">05</div><div class="titles"><div class="en">Music</div><div class="ko" data-i18n="idx_music">드라이브할 때 듣는 음악</div></div></div>
+      <p data-i18n="music_p1">저는 ‘강남스타일’로 유명한 싸이의 음악을 자주 듣습니다. 다만 대부분이 떠올리는 ‘강남스타일’ 같은 곡이 아니라, 그의 다른 노래들을 좋아해요. 싸이의 노래 중에는 텐션을 끌어올리는 곡 말고도 감성적인 곡이 꽤 많거든요.</p>
+      <p data-i18n="music_p2">저는 싸이가 우리 일상과 인생에서 느끼는 다양한 감정 대부분을 노래한 가수라고 생각합니다. 화려한 무대 위의 싸이가 아니라, 아버지를 떠올리고 지나간 시간을 돌아보는 싸이의 노래들을 들으면 제 삶에서 마주했던 감정들을 다시 생각하게 돼요. 그래서 혼자 드라이브할 때면 종종 이 노래들을 듣곤 합니다.</p>
+      <div class="playlist">
+        <div class="ph"><span class="t" data-i18n="music_pl">대로의 플레이리스트</span><span class="en">Playlist</span></div>
+        <ol>
+          <li><span>아버지</span><span class="art">PSY</span></li>
+          <li><span>벌써 이렇게</span><span class="art">PSY</span></li>
+          <li><span>어땠을까</span><span class="art">PSY</span></li>
+          <li><span>마지막 장면</span><span class="art">PSY</span></li>
+          <li><span>나의 월요일</span><span class="art">PSY</span></li>
+        </ol>
+        <a class="pl-link" id="plLink" target="_blank" rel="noopener" data-i18n="music_play">▶ 유튜브에서 듣기</a>
+      </div>
+    </section>
+  </div>
+
+  <div class="wrap">
+    <section id="guestbook" class="closing reveal">
+      <div class="gb-head"><div class="no">06</div><div><div class="en">Guestbook</div><div class="ko" data-i18n="idx_guestbook">머문 분들의 한마디</div></div></div>
+      <p data-i18n="gb_intro">마지막으로, 이 방에 머무는 동안 제 이야기 속 어딘가에 한 번이라도 가보시거나, 이곳에 머물며 좋았던 것들을 아래에 살짝 들려주세요. 그러면 저에게는 가장 반가운 소식이 될 것 같습니다 :)</p>
+
+      <div class="gb-form" id="gbForm">
+        <label data-i18n="gb_lbl_nick">닉네임 (선택)</label>
+        <input id="gbNick" type="text" maxlength="20" data-i18n-ph="gb_ph_nick" placeholder="비워두시면 ‘익명’으로 남겨져요">
+        <label data-i18n="gb_lbl_msg">한마디</label>
+        <textarea id="gbMsg" rows="3" maxlength="300" data-i18n-ph="gb_ph_msg" placeholder="이 방에서 좋았던 순간, 가보신 곳 한 줄이면 충분해요"></textarea>
+        <div class="row">
+          <span class="count"><span id="gbCount">0</span>/300</span>
+          <button id="gbSend" data-i18n="gb_btn" disabled>한마디 남기기</button>
+        </div>
+      </div>
+
+      <div class="gb-list" id="gbList"></div>
+    </section>
+  </div>
+
+  <div id="gbOv"><div id="gbOvc"><div class="msg" id="gbOvm"></div><div class="by" id="gbOvb"></div></div></div>
+
+  <footer>
+    <div class="b">Stay&nbsp;But</div>
+  </footer>
+
+<script>
+  /* ===================== 다국어 (i18n) ===================== */
+  const I18N = {
+    ko:{
+      cover_tag:"이 방의 주인", cover_sub:"Daero — 성수의 친구",
+      lbl_age:"나이", lbl_city:"도시", lbl_area:"지역", val_age:"30대", val_city:"서울", val_area:"성수",
+      lead:"“현지 친구가 최고의 여행 가이드라고 생각합니다.”",
+      idx_about:"이 방의 주인이 된 이유", idx_food:"제가 좋아하는 한 끼", idx_coffee:"하루 한 잔의 기준",
+      idx_place:"성수에서 아끼는 곳", idx_music:"드라이브할 때 듣는 음악", idx_guestbook:"머문 분들의 한마디",
+      cap_about:"대로의 공간, 혹은 성수동의 한 장면",
+      about_p1:"공간이 주는 매력을 소소하게 즐기며 살다가, 우연한 기회에 이 숙소를 운영해 보게 되었습니다.",
+      about_p2:"저는 새로운 동네에 여행을 가면 꼭 현지에 사시는 분들에게 평소 먹는 곳과 가는 곳을 물어봅니다. 인스타나 블로그에 나오는 곳이 아니라, 진짜 현지인들이 가는 곳에서만 느껴지는 매력을 찾는 것을 좋아하거든요.",
+      about_pull:"현지 친구가 최고의 여행 가이드라고 생각합니다.",
+      about_p3:"이 방에 오신 게스트분들에게도 저의 짧은 이야기가, 잠시 머무는 이곳에서 소소한 여행 가이드가 되길 바라봅니다.",
+      food_p1:"저는 평소 단백질 위주의 식사를 좋아합니다. 그래서 점심으로는 제육볶음, 돈가스, 고기가 많이 들어간 국밥을 자주 먹죠.",
+      food_cap1:"안목 성수 · 돼지국밥 1인 세트",
+      food_cap1b:"안목 성수 · 수육 한 접시",
+      food_p2:"성수동에서 지금까지 제가 만난 가장 인상 깊었던 점심 메뉴는 <span class='place'>안목 성수</span>의 돼지국밥입니다. 한때 돼지국밥으로 유명한 부산에 매주 출장을 가야 했던 시기가 있었어요. 그때 택시 기사님들께 여쭤보면서 제 입맛에 맞는 돼지국밥집을 찾아다닐 정도로 좋아하는데, 그런 저에게도 안목은 정말 맛있는 집이었습니다. 1인 세트로 나오는 순대는 웬만한 순댓국 전문점보다 맛있었고요.",
+      food_p3:"저는 국밥을 먹을 때 처음부터 밥을 말지 않습니다. 고기와 흰밥, 김치 삼합을 입에 넣고 국물을 따로 먹는 것을 좋아하거든요. 그러다 고기를 다 먹으면 밥 한 공기를 더 시켜 국물에 말아 먹는데, 저에게는 그게 세상 행복한 점심 시간입니다.",
+      food_cap2:"The Original Pancake House · 주말 브런치",
+      food_p4:"하나 더 말씀드리면, 아내, 딸과 주말 아침에 종종 가는 브런치 집입니다. 여러 곳에 매장이 있는 <span class='place'>오리지널 팬케이크 하우스</span>예요. 신혼 때 주말마다 아내와 서울의 맛있는 팬케이크집을 찾아다니다 이곳에 정착했습니다. 든든한 브런치가 당기거나, 주중에 열심히 일한 토요일 아침 가족과 기분 전환을 하고 싶을 때 가는 곳이에요. 광화문·잠실·이태원·가로수길 등 서울 곳곳에 있습니다.",
+      coffee_p1:"저는 하루 딱 한 잔만 커피를 즐깁니다. 그 이상은 숙면에 방해가 돼서, 일상의 리듬을 지키는 데에는 저에게 딱 한 잔이 좋더라고요. 그래서 하루 한 잔, 어떤 커피를 마시느냐가 제 일상에서는 제법 중요한 일입니다.",
+      coffee_cap:"PEER · 숙소 근처 · 평일 08:30 open",
+      coffee_cap2:"PEER · 아이스 아메리카노",
+      coffee_p2:"성수동에서 가장 인상 깊었던 카페는 숙소 근처의 <span class='place'>PEER 커피</span>입니다. 제가 커피 맛을 예민하게 알아차리는 편은 아니지만, 피어에서 처음 마신 아이스 아메리카노는 기분이 꽤 좋아지는 맛이었어요. 무엇보다 평일에는 아침 8시 30분부터 문을 열어서, 대부분의 카페가 아직 닫혀 있는 이른 아침에도 괜찮은 모닝 커피를 즐길 수 있습니다. 참고로 여기 크루아상이 꽤 괜찮아요. 신혼여행으로 갔던 이탈리아 로마에서 크루아상과 따뜻한 라떼를 먹은 뒤로, 저는 이 조합을 무척 좋아합니다.",
+      place_cap:"서울숲 · 즐거움 끝의 평안함",
+      place_p1:"예전에 다녔던 회사는 서울 곳곳에 사무실이 있었습니다. 그중에서도 성수 사무실로 출근하던 시절, 저의 행복은 바로 <span class='place'>서울숲</span>이었어요. 어릴 적 시골에서 자란 저에게 서울이라는 도시는 동경의 대상이었지만, 한편으로는 뭔지 모르게 메마른 느낌이기도 했습니다. 사회 초년생 시절 강남역 근처에서 일할 때는 지치고 힘들어도 마땅히 갈 곳이 없었거든요.",
+      place_p2:"그런데 성수에는 서울숲이 있었습니다. 성수로 출근할 때면 팀 동료들과 서울숲에서 맛있는 것을 시켜 먹거나, 점심 식사 후 산책을 할 수 있어서 행복했어요. 지금도 아내와 성수에 놀러 오면 무조건 서울숲에 들릅니다. 볼거리 가득한 성수를 다 즐기고 서울숲에서 마무리하면, 즐거움 끝에 평안함까지 누릴 수 있어서 좋아요.",
+      music_p1:"저는 ‘강남스타일’로 유명한 싸이의 음악을 자주 듣습니다. 다만 대부분이 떠올리는 ‘강남스타일’ 같은 곡이 아니라, 그의 다른 노래들을 좋아해요. 싸이의 노래 중에는 텐션을 끌어올리는 곡 말고도 감성적인 곡이 꽤 많거든요.",
+      music_p2:"저는 싸이가 우리 일상과 인생에서 느끼는 다양한 감정 대부분을 노래한 가수라고 생각합니다. 화려한 무대 위의 싸이가 아니라, 아버지를 떠올리고 지나간 시간을 돌아보는 싸이의 노래들을 들으면 제 삶에서 마주했던 감정들을 다시 생각하게 돼요. 그래서 혼자 드라이브할 때면 종종 이 노래들을 듣곤 합니다.",
+      music_pl:"대로의 플레이리스트",
+      music_play:"▶ 유튜브에서 듣기",
+      gb_intro:"마지막으로, 이 방에 머무는 동안 제 이야기 속 어딘가에 한 번이라도 가보시거나, 이곳에 머물며 좋았던 것들을 아래에 살짝 들려주세요. 그러면 저에게는 가장 반가운 소식이 될 것 같습니다 :)",
+      gb_lbl_nick:"닉네임 (선택)", gb_ph_nick:"비워두시면 ‘익명’으로 남겨져요",
+      gb_lbl_msg:"한마디", gb_ph_msg:"이 방에서 좋았던 순간, 가보신 곳 한 줄이면 충분해요",
+      gb_btn:"한마디 남기기", gb_sending:"남기는 중…", gb_thanks:"소중한 한마디 감사합니다 :)",
+      gb_empty:"아직 첫 번째 이야기를 기다리고 있어요.", gb_error:"방명록을 불러오지 못했어요.",
+      gb_already:"이미 소중한 한마디를 남겨주셨어요. 감사합니다 :)",
+      footer_sig:"— 대로 드림"
+    },
+    en:{
+      cover_tag:"Host of this room", cover_sub:"Daero — A friend in Seongsu",
+      lbl_age:"Age", lbl_city:"City", lbl_area:"Area", val_age:"30s", val_city:"Seoul", val_area:"Seongsu",
+      lead:"“I believe a local friend is the best travel guide.”",
+      idx_about:"Why I became this room's host", idx_food:"A meal I love", idx_coffee:"My one cup a day",
+      idx_place:"A place I cherish in Seongsu", idx_music:"Music for a long drive", idx_guestbook:"Words from our guests",
+      cap_about:"Daero's space, or a scene from Seongsu",
+      about_p1:"I've always quietly enjoyed the charm a space can hold, and by chance I came to run this place.",
+      about_p2:"Whenever I travel to a new neighborhood, I always ask the locals where they eat and where they go. I love finding the charm you can only feel in the spots real locals visit — not the ones that show up on Instagram or blogs.",
+      about_pull:"I believe a local friend is the best travel guide.",
+      about_p3:"I hope my little stories can be a small travel guide for you, too, during your short stay here.",
+      food_p1:"I usually prefer protein-centered meals, so for lunch I often go for stir-fried pork, tonkatsu, or a meaty gukbap (rice soup).",
+      food_cap1:"Anmok Seongsu · Pork gukbap, set for one",
+      food_cap1b:"Anmok Seongsu · Boiled pork plate",
+      food_p2:"The most memorable lunch I've had in Seongsu so far is the pork gukbap at <span class='place'>Anmok Seongsu</span>. There was a time I had to travel to Busan — famous for pork gukbap — every week for work, and I'd even ask taxi drivers for tips and hunt down the shops that suited my taste. Even to a fan like me, Anmok was truly delicious. The blood sausage (sundae) in the set-for-one was better than at most places that specialize in it.",
+      food_p3:"When I eat gukbap, I don't mix the rice into the soup from the start. I like to take a bite of the trio — meat, white rice, and kimchi — and sip the broth separately. Then once the meat is gone, I order another bowl of rice and finally mix it into the broth. To me, that's the happiest lunch in the world.",
+      food_cap2:"The Original Pancake House · Weekend brunch",
+      food_p4:"One more: a brunch spot my wife, daughter and I often visit on weekend mornings — <span class='place'>The Original Pancake House</span>, which has several branches. As newlyweds we spent every weekend hunting down good pancake places in Seoul, and settled on this one. We go when we're craving a hearty brunch, or on a Saturday morning when we want a little family reset after a hard week. You'll find branches around Gwanghwamun, Jamsil, Itaewon, Garosu-gil and more.",
+      coffee_p1:"I enjoy exactly one cup of coffee a day. Any more disturbs my sleep, so for keeping my daily rhythm, one cup is just right for me. That's why which coffee I drink — that single daily cup — is a rather important matter in my day.",
+      coffee_cap:"PEER · Near the stay · Opens 08:30 on weekdays",
+      coffee_cap2:"PEER · Iced americano",
+      coffee_p2:"The café that left the strongest impression on me in Seongsu is <span class='place'>PEER coffee</span>, right near the stay. I don't have an especially sharp palate for coffee, but the first iced americano I had there genuinely lifted my mood. Best of all, on weekdays it opens at 8:30 a.m., so you can enjoy a decent morning coffee even early on, when most cafés are still closed. By the way, their croissants are quite good. Ever since I had a croissant with a warm latte in Rome on our honeymoon, I've loved that pairing.",
+      place_cap:"Seoul Forest · Calm at the end of joy",
+      place_p1:"A company I used to work for had offices all over Seoul. Of all of them, during the days I commuted to the Seongsu office, my happiness was <span class='place'>Seoul Forest</span>. Having grown up in the countryside, the city of Seoul was something I longed for, yet it also felt somehow dry. As a young professional working near Gangnam Station, even when I was worn out there was nowhere I really felt I could go.",
+      place_p2:"But Seongsu had Seoul Forest. On the days I commuted there, I was happy I could order something tasty with my teammates in the park, or take a walk after lunch. Even now, whenever my wife and I come to Seongsu for fun, we always stop by Seoul Forest. After enjoying everything lively that Seongsu offers and wrapping up there, you find calm at the end of all that joy — and I love that.",
+      music_p1:"I often listen to PSY, famous for 'Gangnam Style.' But not the kind of song most people picture — I love his other work. Beyond the high-energy tracks, PSY has quite a few deeply emotional songs.",
+      music_p2:"I think of PSY as an artist who has sung about most of the emotions we feel in everyday life. Not PSY on the dazzling stage, but the PSY who remembers his father and looks back on time gone by — listening to those songs makes me revisit the feelings I've met in my own life. So when I drive alone, I often play them.",
+      music_pl:"Daero's Playlist",
+      music_play:"▶ Play on YouTube",
+      gb_intro:"Lastly — if during your stay you visit somewhere from my little stories, or find things you loved here, do share a word or two below. That would be the most welcome news to me :)",
+      gb_lbl_nick:"Nickname (optional)", gb_ph_nick:"Leave blank to post as ‘Anonymous’",
+      gb_lbl_msg:"Your message", gb_ph_msg:"A moment you enjoyed here, or a place you visited — one line is enough",
+      gb_btn:"Leave a message", gb_sending:"Posting…", gb_thanks:"Thank you for your kind words :)",
+      gb_empty:"Still waiting for the very first story.", gb_error:"Couldn't load the guestbook.",
+      gb_already:"You've already left a kind message. Thank you :)",
+      footer_sig:"— From Daero"
+    },
+    ja:{
+      cover_tag:"この部屋のホスト", cover_sub:"Daero — 聖水の友だち",
+      lbl_age:"年齢", lbl_city:"都市", lbl_area:"エリア", val_age:"30代", val_city:"ソウル", val_area:"聖水",
+      lead:"「現地の友人こそ、最高の旅のガイドだと思っています。」",
+      idx_about:"この部屋のホストになった理由", idx_food:"私の好きな一食", idx_coffee:"一日一杯のこだわり",
+      idx_place:"聖水で大切にしている場所", idx_music:"ドライブで聴く音楽", idx_guestbook:"泊まった方からの一言",
+      cap_about:"대로の空間、あるいは聖水の一場面",
+      about_p1:"空間が持つ魅力をささやかに楽しみながら暮らすうち、ふとしたご縁でこの宿を運営することになりました。",
+      about_p2:"新しい街へ旅に出ると、私は必ず地元の方に普段どこで食べ、どこへ行くのかを尋ねます。インスタやブログに出てくる場所ではなく、本当の地元の人だけが通う店でしか感じられない魅力を探すのが好きなんです。",
+      about_pull:"現地の友人こそ、最高の旅のガイドだと思っています。",
+      about_p3:"この部屋に来てくださったゲストの方にも、私のささやかな話が、しばし過ごすこの場所での小さな旅のガイドになればと願っています。",
+      food_p1:"私は普段、タンパク質中心の食事が好きです。だから昼はよくチェユクポックム（豚肉炒め）やとんかつ、肉たっぷりのクッパを食べます。",
+      food_cap1:"アンモク聖水・テジクッパ 1人セット",
+      food_cap1b:"アンモク聖水・水ゆで肉(スユク)",
+      food_p2:"聖水でこれまで出会った中で最も印象的なランチは、<span class='place'>アンモク聖水</span>のテジクッパ（豚クッパ）です。かつてテジクッパで有名な釜山へ毎週出張していた時期があり、タクシーの運転手さんに尋ねては自分好みの店を探し歩くほど好きなのですが、そんな私にとってもアンモクは本当に美味しい店でした。1人セットに付くスンデは、その辺の専門店より美味しかったほどです。",
+      food_p3:"クッパを食べるとき、私は最初からご飯を汁に入れません。肉と白ご飯、キムチの三種を一緒に口に運び、スープは別にいただくのが好きなんです。肉を食べ終えたらご飯をもう一杯頼んで汁に入れて食べる——私にとってそれは世界一幸せなランチの時間です。",
+      food_cap2:"The Original Pancake House・週末のブランチ",
+      food_p4:"もう一つ。妻と娘と週末の朝によく行くブランチの店です。あちこちに店舗がある<span class='place'>オリジナル・パンケーキ・ハウス</span>です。新婚の頃、週末ごとに妻とソウルの美味しいパンケーキ店を探し歩いてたどり着いた店でした。しっかりしたブランチが食べたいとき、あるいは平日頑張った土曜の朝、家族で気分転換したいときに行きます。光化門・蚕室・梨泰院・新沙（カロスキル）などソウル各地にあります。",
+      coffee_p1:"私はコーヒーを一日きっかり一杯だけ楽しみます。それ以上は熟睡の妨げになるので、日々のリズムを保つには一杯がちょうどいいんです。だから一日一杯、どんなコーヒーを飲むかは、私の毎日においてけっこう大切なことです。",
+      coffee_cap:"PEER・宿のすぐ近く・平日8:30オープン",
+      coffee_cap2:"PEER・アイスアメリカーノ",
+      coffee_p2:"聖水で最も印象に残ったカフェは、宿のすぐ近くにある<span class='place'>PEERコーヒー</span>です。私はコーヒーの味に特別敏感なほうではありませんが、PEERで初めて飲んだアイスアメリカーノは、気分がぐっと良くなる味でした。何より平日は朝8時30分から開くので、たいていのカフェがまだ閉まっている早朝でも、おいしいモーニングコーヒーを楽しめます。ちなみにここのクロワッサンはなかなかです。新婚旅行で訪れたイタリア・ローマでクロワッサンと温かいラテをいただいて以来、私はこの組み合わせが大好きなんです。",
+      place_cap:"ソウルの森・楽しさの果ての安らぎ",
+      place_p1:"以前勤めていた会社はソウルのあちこちにオフィスがありました。中でも聖水のオフィスへ通っていた頃、私の幸せはまさに<span class='place'>ソウルの森</span>でした。田舎で育った私にとってソウルという街は憧れでしたが、一方でどこか乾いた感じもしていました。社会人になりたての頃、江南駅の近くで働いていたときは、疲れてつらくても行く当てがなかったのです。",
+      place_p2:"でも、聖水にはソウルの森がありました。聖水へ通っていた頃は、チームの同僚たちと森でおいしいものを注文して食べたり、昼食後に散歩できたりして幸せでした。今でも妻と聖水へ遊びに来ると、必ずソウルの森に立ち寄ります。見どころいっぱいの聖水を満喫して、最後にソウルの森で締めくくると、楽しさの果てに安らぎまで味わえて、とてもいいんです。",
+      music_p1:"私は『江南スタイル』で有名なPSY（サイ）の音楽をよく聴きます。ただ、多くの人が思い浮かべる『江南スタイル』のような曲ではなく、彼の別の歌が好きなんです。PSYの曲には、テンションを上げる曲のほかに、情感あふれる曲もかなり多いんですよ。",
+      music_p2:"私はPSYを、私たちが日常や人生で感じるさまざまな感情のほとんどを歌ってきた歌手だと思っています。華やかなステージの上のPSYではなく、父を思い、過ぎ去った時間を振り返るPSYの歌を聴くと、自分の人生で出会ってきた感情をもう一度思い返すことになるんです。だから一人でドライブするとき、よくこれらの曲を聴いています。",
+      music_pl:"Daeroのプレイリスト",
+      music_play:"▶ YouTubeで聴く",
+      gb_intro:"最後に。この部屋に滞在する間、私の話の中のどこかへ一度でも足を運んでくださったり、ここで過ごして良かったことがあれば、下にそっと聞かせてください。それが私にとって何よりうれしい知らせになります :)",
+      gb_lbl_nick:"ニックネーム（任意）", gb_ph_nick:"空欄の場合は「匿名」で投稿されます",
+      gb_lbl_msg:"ひとこと", gb_ph_msg:"この部屋で良かった瞬間や、訪れた場所を一行でどうぞ",
+      gb_btn:"ひとことを残す", gb_sending:"送信中…", gb_thanks:"あたたかいひとこと、ありがとうございます :)",
+      gb_empty:"最初の一言を、まだ待っています。", gb_error:"ゲストブックを読み込めませんでした。",
+      gb_already:"すでにあたたかいひとことをいただきました。ありがとうございます :)",
+      footer_sig:"— 대로より"
+    },
+    zh:{
+      cover_tag:"这间房的主人", cover_sub:"Daero — 圣水的朋友",
+      lbl_age:"年龄", lbl_city:"城市", lbl_area:"区域", val_age:"30+", val_city:"首尔", val_area:"圣水",
+      lead:"“我始终相信，当地的朋友才是最好的旅行向导。”",
+      idx_about:"我成为这间房主人的缘由", idx_food:"我钟爱的一餐", idx_coffee:"每天一杯的讲究",
+      idx_place:"我珍爱的圣水一隅", idx_music:"开车时听的音乐", idx_guestbook:"住客的留言",
+      cap_about:"大路的空间，或圣水的一隅",
+      about_p1:"我一直默默享受空间带来的魅力，偶然间有了经营这间住所的机会。",
+      about_p2:"每到一个陌生的街区旅行，我一定会向当地人打听他们平时吃饭、常去的地方。比起 Instagram 或博客上的网红店，我更喜欢去只有真正的当地人才会光顾、才能感受到那份独特魅力的地方。",
+      about_pull:"我始终相信，当地的朋友才是最好的旅行向导。",
+      about_p3:"也希望我这些小小的故事，能成为你在这里短暂停留时的一份小小旅行指南。",
+      food_p1:"我平时偏爱以蛋白质为主的饮食，所以午餐常吃辣炒猪肉、炸猪排，或是肉量十足的汤饭（汤泡饭）。",
+      food_cap1:"Anmok 圣水 · 猪肉汤饭单人套餐",
+      food_cap1b:"Anmok 圣水 · 水煮肉片",
+      food_p2:"目前为止，我在圣水吃过最难忘的午餐，是<span class='place'>Anmok 圣水</span>的猪肉汤饭。我曾经有一段时间每周都要去以猪肉汤饭闻名的釜山出差，那时我甚至会向出租车司机打听，四处寻找合自己口味的店，算是相当喜爱。即便对这样的我来说，Anmok 也确实美味。单人套餐里的血肠，比一般的专门店还要好吃。",
+      food_p3:"吃汤饭时，我不会一开始就把饭泡进汤里。我喜欢把肉、白饭和泡菜三样一起送进嘴里，再单独喝汤。等肉吃完了，再点一碗饭泡进汤里吃——对我来说，那就是世界上最幸福的午餐时光。",
+      food_cap2:"The Original Pancake House · 周末早午餐",
+      food_p4:"再推荐一处。这是我和妻子、女儿周末早晨常去的早午餐店——在多地设有分店的<span class='place'>Original Pancake House</span>。新婚时，我和妻子每个周末都在首尔四处寻找好吃的松饼店，最后定在了这里。想吃顿丰盛的早午餐，或是辛苦工作一周后、想在周六早晨和家人换换心情时，我就会来这儿。光化门、蚕室、梨泰院、林荫道（新沙）等首尔各处都有分店。",
+      coffee_p1:"我每天只喝一杯咖啡。再多就会影响睡眠，对于维持日常节奏来说，一杯对我刚刚好。所以一天一杯、喝什么样的咖啡，在我的日常里是件相当重要的事。",
+      coffee_cap:"PEER · 紧邻住所 · 工作日 08:30 开门",
+      coffee_cap2:"PEER · 冰美式",
+      coffee_p2:"在圣水让我印象最深的咖啡馆，是紧邻住所的<span class='place'>PEER 咖啡</span>。我对咖啡的味道并不算特别敏感，但在 PEER 第一次喝到的冰美式，是那种能让心情明显变好的味道。最重要的是，它工作日早上 8 点半就开门，所以在大多数咖啡馆还没营业的清晨，也能享受一杯不错的早咖啡。顺带一提，这里的可颂相当不错。自从蜜月去意大利罗马吃过可颂配热拿铁后，我就特别喜欢这个组合。",
+      place_cap:"首尔林 · 欢愉之后的安宁",
+      place_p1:"我以前任职的公司在首尔各处都设有办公室。其中，在我去圣水办公室上班的那段日子里，我的快乐就是<span class='place'>首尔林</span>。在乡下长大的我，对首尔这座城市充满向往，但另一方面，又总觉得它有些说不出的干涩。刚踏入社会、在江南站附近工作时，即便疲惫不堪，也没有一个真正能去的地方。",
+      place_p2:"可是，圣水有首尔林。在圣水上班的日子里，我能和团队同事在林子里点些好吃的，或在午饭后散散步，那让我很幸福。如今每当我和妻子来圣水游玩，也一定会去首尔林。把热闹精彩的圣水尽情逛完，最后在首尔林收尾，便能在欢愉之后再享一份安宁——我很喜欢这样。",
+      music_p1:"我常听以《江南Style》闻名的 PSY（鸟叔）的音乐。不过，并不是大多数人想到的《江南Style》那类歌，我喜欢的是他的其他作品。PSY 的歌里，除了能炒热气氛的曲子，其实也有不少很有情感的歌。",
+      music_p2:"在我看来，PSY 是一位几乎唱尽了我们日常与人生中各种情感的歌手。不是华丽舞台上的 PSY，而是那个会想起父亲、回望逝去时光的 PSY——听他这些歌，会让我重新去思量自己生命中遇见过的种种情感。所以独自开车时，我常常会放这些歌。",
+      music_pl:"大路的歌单",
+      music_play:"▶ 在 YouTube 播放",
+      gb_intro:"最后，若你在入住期间，去过我故事里提到的某个地方，或在这里发现了喜欢的事物，欢迎在下方留下三言两语。那对我来说，会是最令人欣喜的消息 :)",
+      gb_lbl_nick:"昵称（选填）", gb_ph_nick:"留空将以“匿名”发布",
+      gb_lbl_msg:"留言", gb_ph_msg:"在这间房里喜欢的瞬间，或你去过的地方，一句话就够了",
+      gb_btn:"留下一句话", gb_sending:"提交中…", gb_thanks:"感谢你珍贵的留言 :)",
+      gb_empty:"还在等待第一条留言。", gb_error:"无法加载留言板。",
+      gb_already:"你已经留下了珍贵的留言，谢谢你 :)",
+      footer_sig:"— 大路 敬上"
+    },
+    es:{
+      cover_tag:"El anfitrión de esta habitación", cover_sub:"Daero — Un amigo en Seongsu",
+      lbl_age:"Edad", lbl_city:"Ciudad", lbl_area:"Zona", val_age:"30s", val_city:"Seúl", val_area:"Seongsu",
+      lead:"«Creo que un amigo local es la mejor guía de viaje.»",
+      idx_about:"Por qué soy el anfitrión", idx_food:"Una comida que me encanta", idx_coffee:"Mi taza diaria",
+      idx_place:"Un lugar que aprecio en Seongsu", idx_music:"Música para conducir", idx_guestbook:"Palabras de los huéspedes",
+      cap_about:"El espacio de Daero, o una escena de Seongsu",
+      about_p1:"Siempre he disfrutado en silencio del encanto que puede tener un espacio, y por casualidad acabé gestionando este alojamiento.",
+      about_p2:"Cuando viajo a un barrio nuevo, siempre pregunto a la gente del lugar dónde come y adónde va. Me encanta descubrir el encanto que solo se siente en los sitios a los que van los verdaderos locales, no los que salen en Instagram o en los blogs.",
+      about_pull:"Creo que un amigo local es la mejor guía de viaje.",
+      about_p3:"Espero que mis pequeñas historias también sean una pequeña guía de viaje para ti durante tu breve estancia aquí.",
+      food_p1:"Suelo preferir comidas ricas en proteína, así que para almorzar a menudo elijo cerdo salteado, tonkatsu o un gukbap (sopa de arroz) bien cargado de carne.",
+      food_cap1:"Anmok Seongsu · Gukbap de cerdo, menú individual",
+      food_cap1b:"Anmok Seongsu · Plato de cerdo hervido",
+      food_p2:"El almuerzo más memorable que he probado en Seongsu hasta ahora es el gukbap de cerdo de <span class='place'>Anmok Seongsu</span>. Hubo una época en la que viajaba cada semana por trabajo a Busan, famosa por este plato, y hasta preguntaba a los taxistas para buscar los locales que se ajustaban a mi gusto. Incluso para un aficionado como yo, Anmok estaba realmente delicioso. El sundae (embutido) del menú individual era mejor que el de muchos sitios especializados.",
+      food_p3:"Cuando como gukbap, no echo el arroz al caldo desde el principio. Me gusta llevarme a la boca el trío de carne, arroz blanco y kimchi, y tomar el caldo por separado. Luego, cuando se acaba la carne, pido otro cuenco de arroz y por fin lo mezclo con el caldo. Para mí, ese es el almuerzo más feliz del mundo.",
+      food_cap2:"The Original Pancake House · Brunch de fin de semana",
+      food_p4:"Una más: un sitio de brunch al que mi esposa, mi hija y yo solemos ir las mañanas de fin de semana — <span class='place'>The Original Pancake House</span>, que tiene varias sucursales. Recién casados pasábamos cada fin de semana buscando buenas creperías en Seúl, y nos quedamos con esta. Vamos cuando se nos antoja un brunch contundente, o un sábado por la mañana cuando queremos despejarnos en familia tras una semana dura. Hay locales por Gwanghwamun, Jamsil, Itaewon, Garosu-gil y más.",
+      coffee_p1:"Disfruto exactamente una taza de café al día. Más me quita el sueño, así que para mantener mi ritmo diario, una taza es lo justo para mí. Por eso, qué café tomo —esa única taza del día— es un asunto bastante importante en mi jornada.",
+      coffee_cap:"PEER · Cerca del alojamiento · Abre a las 08:30 entre semana",
+      coffee_cap2:"PEER · Americano helado",
+      coffee_p2:"El café que más me marcó en Seongsu es <span class='place'>PEER coffee</span>, muy cerca del alojamiento. No tengo un paladar especialmente fino para el café, pero el primer americano helado que tomé allí de verdad me alegró el ánimo. Lo mejor: entre semana abre a las 8:30 de la mañana, así que puedes disfrutar de un buen café incluso a primera hora, cuando casi todas las cafeterías siguen cerradas. Por cierto, sus cruasanes son bastante buenos. Desde que probé un cruasán con un latte caliente en Roma, en nuestra luna de miel, me encanta esa combinación.",
+      place_cap:"Seoul Forest · La calma tras la alegría",
+      place_p1:"Una empresa en la que trabajé tenía oficinas por todo Seúl. De todas ellas, en la época en que iba a la oficina de Seongsu, mi felicidad era precisamente <span class='place'>Seoul Forest</span>. Habiendo crecido en el campo, la ciudad de Seúl era algo que anhelaba, pero a la vez me resultaba, no sé por qué, algo árida. De recién llegado al mundo laboral, trabajando cerca de la estación de Gangnam, por más agotado que estuviera no tenía un sitio al que de verdad pudiera ir.",
+      place_p2:"Pero Seongsu tenía Seoul Forest. En los días que iba allí a trabajar, me hacía feliz poder pedir algo rico con mis compañeros en el parque o dar un paseo después de comer. Aún hoy, siempre que mi esposa y yo venimos a pasarlo bien a Seongsu, pasamos sin falta por Seoul Forest. Tras disfrutar de todo lo animado que ofrece Seongsu y terminar allí, encuentras calma al final de la alegría, y eso me encanta.",
+      music_p1:"Suelo escuchar a PSY, famoso por 'Gangnam Style.' Pero no el tipo de canción que la mayoría imagina — me encantan sus otras canciones. Más allá de los temas eufóricos, PSY tiene unas cuantas canciones muy emotivas.",
+      music_p2:"Para mí, PSY es un artista que ha cantado casi todas las emociones que sentimos en la vida cotidiana. No el PSY del escenario deslumbrante, sino el que recuerda a su padre y mira atrás al tiempo que pasó: escuchar esas canciones me hace reencontrarme con los sentimientos que he vivido. Por eso, cuando conduzco solo, suelo ponerlas.",
+      music_pl:"La lista de Daero",
+      music_play:"▶ Escuchar en YouTube",
+      gb_intro:"Por último: si durante tu estancia visitas algún lugar de mis pequeñas historias, o descubres cosas que te gustaron aquí, déjame unas palabras abajo. Para mí sería la noticia más grata :)",
+      gb_lbl_nick:"Apodo (opcional)", gb_ph_nick:"Si lo dejas en blanco, se publicará como «Anónimo»",
+      gb_lbl_msg:"Tu mensaje", gb_ph_msg:"Un momento que disfrutaste aquí o un lugar que visitaste; una línea basta",
+      gb_btn:"Dejar un mensaje", gb_sending:"Enviando…", gb_thanks:"Gracias por tus amables palabras :)",
+      gb_empty:"Aún esperando la primera historia.", gb_error:"No se pudo cargar el libro de visitas.",
+      gb_already:"Ya has dejado un mensaje. ¡Gracias! :)",
+      footer_sig:"— De Daero"
+    }
+  };
+
+  let LANG = 'ko';
+  function t(key){ return (I18N[LANG] && I18N[LANG][key]) || (I18N.ko[key] || ''); }
+  function setLang(lang){
+    if(!I18N[lang]) return;
+    LANG = lang;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k = el.getAttribute('data-i18n'); if(I18N[lang][k]!=null) el.innerHTML = I18N[lang][k];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
+      var k = el.getAttribute('data-i18n-ph'); if(I18N[lang][k]!=null) el.placeholder = I18N[lang][k];
+    });
+    document.querySelectorAll('#langbar button').forEach(function(b){
+      b.classList.toggle('on', b.getAttribute('data-lang')===lang);
+    });
+    if(typeof gbRefresh==='function') gbRefresh();
+  }
+  document.getElementById('langbar').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(b) setLang(b.getAttribute('data-lang'));
+  });
+
+  /* ===================== 애니메이션 ===================== */
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  /* ===================== 유튜브 재생목록 =====================
+     ↓↓↓ 유튜브 재생목록 주소를 따옴표 안에 붙여넣으세요 ↓↓↓
+     (예: https://www.youtube.com/playlist?list=XXXXXXXX)        */
+  const PLAYLIST_URL = "https://youtube.com/playlist?list=PL6U8HjMBkQ7HADxYHCbLSyOdIKFBnNG4J&si=qg_51STrIEvA-AxS";
+  /* ========================================================== */
+  (function(){
+    var pl=document.getElementById('plLink');
+    if(!pl) return;
+    if(PLAYLIST_URL.indexOf('http')===0){ pl.href=PLAYLIST_URL; }
+    else { pl.addEventListener('click',function(e){ e.preventDefault(); }); pl.style.cursor='default'; }
+  })();
+
+  /* ===================== 방명록 (Guestbook) =====================
+     ↓↓↓ 구글 Apps Script 웹앱 URL을 따옴표 안에 붙여넣으세요 ↓↓↓ */
+  const GUESTBOOK_ENDPOINT = "https://script.google.com/macros/s/AKfycbzWYC1pJ8pK4T1tdH39GknTth7hHU32nK4B-TxW_OHON5UB-ZZ855WzWLKgOxYDTJJ7eA/exec";
+  /* ============================================================ */
+
+  const gbMsg=document.getElementById('gbMsg');
+  const gbNick=document.getElementById('gbNick');
+  const gbSend=document.getElementById('gbSend');
+  const gbCount=document.getElementById('gbCount');
+  const gbList=document.getElementById('gbList');
+  const gbForm=document.getElementById('gbForm');
+  const gbReady = GUESTBOOK_ENDPOINT.indexOf('script.google.com')!==-1;
+  const GB_KEY='gb_submitted_daero';
+  let gbState='form';   // 'form' | 'thanks' | 'already'
+
+  function gbHas(){ try{ return localStorage.getItem(GB_KEY)==='1'; }catch(e){ return false; } }
+  function gbMark(){ try{ localStorage.setItem(GB_KEY,'1'); }catch(e){} }
+  function gbEscape(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+  function renderFormState(){
+    if(gbState==='thanks'){ gbForm.innerHTML='<div class="gb-thanks"><div class="big">'+t('gb_thanks')+'</div></div>'; }
+    else if(gbState==='already'){ gbForm.innerHTML='<div class="gb-thanks"><div class="big">'+t('gb_already')+'</div></div>'; }
+  }
+
+  function loadGuestbook(lang){
+    if(!gbReady){ gbList.innerHTML='<div class="gb-empty">'+t('gb_empty')+'</div>'; return; }
+    var cb='gbcb_'+Date.now();
+    var s=document.createElement('script');
+    window[cb]=function(data){
+      var items=(data&&data.messages)||[];
+      if(items.length===0){ gbList.innerHTML='<div class="gb-empty">'+t('gb_empty')+'</div>'; }
+      else{
+        gbList.innerHTML=items.map(function(m){
+          return '<div class="gb-entry"><div class="msg">'+gbEscape(m.message)+'</div><div class="by">— <span class="nm">'+gbEscape(m.nickname)+'</span> · '+gbEscape(m.date)+'</div></div>';
+        }).join('');
+      }
+      try{delete window[cb];}catch(e){window[cb]=undefined;} s.remove();
+    };
+    s.src=GUESTBOOK_ENDPOINT+'?callback='+cb+'&lang='+encodeURIComponent(lang||'ko')+'&t='+Date.now();
+    s.onerror=function(){ gbList.innerHTML='<div class="gb-empty">'+t('gb_error')+'</div>'; };
+    document.body.appendChild(s);
+  }
+
+  function gbRefresh(){ renderFormState(); loadGuestbook(LANG); }
+
+  function gbOpenOv(msg,by){
+    document.getElementById('gbOvm').textContent='“'+msg+'”';
+    document.getElementById('gbOvb').textContent=by;
+    document.getElementById('gbOv').classList.add('on');
+  }
+  gbList.addEventListener('click',function(e){
+    var card=e.target.closest('.gb-entry'); if(!card) return;
+    var msgEl=card.querySelector('.msg'), byEl=card.querySelector('.by');
+    gbOpenOv(msgEl?msgEl.textContent:'', byEl?byEl.textContent:'');
+  });
+  document.getElementById('gbOv').addEventListener('click',function(){ this.classList.remove('on'); });
+
+  gbMsg.addEventListener('input',function(){
+    gbCount.textContent=gbMsg.value.length;
+    gbSend.disabled=gbMsg.value.trim().length===0;
+  });
+
+  gbSend.addEventListener('click',function(){
+    if(gbState!=='form') return;
+    var text=gbMsg.value.trim(); if(!text) return;
+    if(!gbReady) return;
+    gbSend.disabled=true; gbSend.textContent=t('gb_sending');
+    fetch(GUESTBOOK_ENDPOINT,{method:'POST',mode:'no-cors',body:JSON.stringify({nickname:gbNick.value.trim(),message:text})})
+      .catch(function(){})
+      .finally(function(){ gbMark(); gbState='thanks'; renderFormState(); setTimeout(function(){ loadGuestbook(LANG); }, 1500); });
+  });
+
+  if(gbHas()){ gbState='already'; }
+  setLang('ko');
+</script>
+</body>
+</html>
