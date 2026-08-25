@@ -163,61 +163,8 @@
   .emwrap.gone, .privline.gone{ display:none !important; }
 
   /* ── 채팅 첫 화면 FAQ 선택지 [2026-08-25] ── */
-  /* ── 문의 동의 시트 [2026-08-25] · 객실 카드와 같은 톤 (크림·잉크·2px 룰) ── */
-  .cnsheet{ position:fixed; inset:0; z-index:75; display:none; }
-  .cnsheet.on{ display:block; }
-  .cnsheet .bgm{ position:absolute; inset:0; background:rgba(16,20,26,.45); }
-  .cnsheet .pan{ position:absolute; left:50%; bottom:0; transform:translateX(-50%);
-                 width:100%; max-width:520px; background:var(--cream);
-                 border-radius:4px 4px 0 0; overflow:auto; max-height:94dvh; }
-
-  /* 헤더 — QR 도착 화면(.ghead)과 같은 구조·같은 값 */
-  .cnhead{ background:var(--ink); padding:17px 20px 22px; }
-  .cnhead .top{ display:flex; align-items:center; }
-  .cnhead .wmk{ color:#fff; }
-  .cnhead .xbtn{ margin-left:auto; flex:none; border:1.5px solid rgba(255,255,255,.30);
-                 background:transparent; color:#fff; width:32px; height:32px;
-                 border-radius:2px; font-size:14px; cursor:pointer; }
-  .cnhead .rmlbl{ font-family:var(--mono); font-size:10px; font-weight:800;
-                  letter-spacing:.22em; color:#8C8577; margin-top:19px; }
-  /* Archivo 에는 한글 글리프가 없어 Pretendard 를 뒤에 붙입니다 (영문은 Archivo, 한글은 Pretendard) */
-  .cnhead .gtt{ font-family:var(--mono), var(--kr); font-size:31px; font-weight:800;
-                letter-spacing:-.03em; line-height:1.16; color:var(--cream); margin-top:12px; }
-
-  .cnbody{ padding:18px 18px calc(20px + env(safe-area-inset-bottom)); }
-  .cnsub{ margin:0 0 15px; font-size:13.5px; line-height:1.65; color:var(--ink); font-weight:500; }
-  .cnbox{ border:2px solid var(--ink); border-radius:3px; padding:15px 16px; background:var(--card); }
-  .cnbox p{ margin:0; font-size:13px; line-height:1.6; color:var(--ink); }
-  .cnbox p + p{ margin-top:13px; }
-  .cnbox b{ font-weight:700; }
-  .cnhours{ display:flex; align-items:center; gap:8px; margin:15px 2px;
-            font-size:13.5px; font-weight:700; color:var(--ink); }
-  .cnhours .dot{ width:8px; height:8px; border-radius:50%; background:#3A7030; flex:none; }
-  .cnagree{ display:flex; align-items:center; gap:12px; margin-top:16px;
-            border:2px solid var(--ink); border-radius:3px; padding:15px 16px;
-            background:var(--card); font-size:14px; font-weight:700; cursor:pointer; user-select:none; }
-  .cnagree input{ width:19px; height:19px; accent-color:var(--ink); flex:none; }
-  .cnbtn{ width:100%; margin-top:14px; padding:17px; border:2px solid var(--ink); border-radius:3px;
-          background:var(--ink); color:var(--cream); font-family:inherit;
-          font-size:15px; font-weight:800; cursor:pointer; }
-  .cnbtn:disabled{ background:#E0DACA; border-color:#E0DACA; color:var(--faint); cursor:default; }
-  .cnmore{ display:block; text-align:center; margin-top:15px; font-size:12px;
-  /* ── 시안 반영 : 이용정보 2줄 라벨 · 성수 가이드 카드 [2026-08-25] ── */
-  .row .k small{ display:block; font-size:10.5px; font-weight:400; color:var(--muted);
-                 margin-top:5px; letter-spacing:0; }
-  .row .v .rust{ color:var(--rust); font-weight:700; }
-  .guide{ background:var(--card); border:2px solid var(--ink); border-radius:3px;
-          padding:16px 18px; display:flex; align-items:center; gap:12px; width:100%;
-          border-width:1.5px; text-align:left; }
-  .guide .tx{ flex:1; min-width:0; }
-  .guide .eyebrow{ font-family:var(--mono); font-size:9px; font-weight:800;
-                   letter-spacing:.2em; color:var(--rust); }
-  .guide b{ display:block; font-size:15px; font-weight:800; color:var(--ink); margin-top:7px; }
-  .guide p{ margin:6px 0 0; font-size:11.5px; color:var(--muted); line-height:1.55; }
-  .guide .arw{ flex:none; color:var(--rust); font-size:17px; font-weight:700; }
-
-  /* ── 채팅 첫 화면 FAQ 선택지 [2026-08-25] ── */
-           color:var(--muted); text-decoration:underline; }
+  /* [2026-08-25] 문의 동의 시트 CSS 삭제 — 시트 자체를 없앴습니다.
+     (닫히지 않은 .cnmore 규칙 안에 갇혀 죽어 있던 중복 규칙들도 함께 정리) */
 
   /* ── 문의 푸터 (인쇄 카드와 동일 톤) [2026-08-25] ── */
   .split{ height:3px; background:var(--ink); margin:26px 2px 0; }
@@ -603,27 +550,8 @@ a.row .rust, .locsub .rust{ color:var(--ink) !important; }
 </div>
 
 <!-- 채팅 -->
-<div class="cnsheet" id="cnSheet">
-  <div class="bgm" data-close="cn"></div>
-  <div class="pan">
-    <div class="cnhead">
-      <div class="top">
-        <span class="wmk">STAY<span class="sp"></span>BUT<span class="cjk">友</span></span>
-        <button class="xbtn" id="cnX">✕</button>
-      </div>
-      <div class="rmlbl"><span id="cnRoom">ROOM —</span></div>
-      <div class="gtt" id="cnTtl">문의하기</div>
-    </div>
-    <div class="cnbody">
-      <p class="cnsub" id="cnSub">궁금하신 점을 실시간으로 도와드려요. 시작하기 전 아래 안내를 확인해 주세요.</p>
-      <div class="cnbox" id="cnBox"></div>
-      <div class="cnhours"><span class="dot"></span><span id="cnHours">상담 가능 시간 · 09:00 — 20:00</span></div>
-      <label class="cnagree"><input type="checkbox" id="cnChk"><span id="cnAgree">위 내용에 동의합니다</span></label>
-      <button class="cnbtn" id="cnBtn" disabled>동의하고 문의 시작</button>
-      <a class="cnmore" id="cnMore" href="/privacy.html" target="_blank" rel="noopener">개인정보처리방침 전문 보기 ↗</a>
-    </div>
-  </div>
-</div>
+<!-- [2026-08-25] 동의 시트 삭제 — 「문의하기」를 누르면 바로 채팅이 열립니다.
+     동의는 채팅 안 메일칸 아래 작은 체크박스 하나로만 받습니다. -->
 
 <div class="chsheet" id="chSheet">
   <div class="bgm" data-close="ch"></div>
@@ -780,7 +708,7 @@ function openSheet(el){
   document.body.classList.add('sheet-open');
 }
 function closeAll(){
-  ['#lgSheet','#dSheet','#chSheet','#cnSheet'].forEach(id=>{const e=$(id); if(e) e.classList.remove('on');});
+  ['#lgSheet','#dSheet','#chSheet'].forEach(id=>{const e=$(id); if(e) e.classList.remove('on');});
   document.body.classList.remove('sheet-open');
 }
 
@@ -1026,16 +954,6 @@ function openRow(id){
 /* ---------- 화면 연결 ---------- */
 $('#langBtn').addEventListener('click',()=>{ renderLangList(); openSheet($('#lgSheet')); });
 $('#askCard').addEventListener('click',()=>openChat());
-$('#cnX').addEventListener('click',()=>{ $('#cnSheet').classList.remove('on'); document.body.classList.remove('sheet-open'); });
-$('#cnChk').addEventListener('change',e=>{ $('#cnBtn').disabled=!e.target.checked; });
-$('#cnBtn').addEventListener('click',()=>{
-  /* [2026-08-25] 메일은 채팅 안에서만 받습니다.
-     동의 화면에서도 받으면 채팅 진입 후 또 물어서 두 번 적게 됩니다. */
-  cnOK=true;
-  try{ sessionStorage.setItem('sb_chat_consent','1'); }catch(e){}
-  $('#cnSheet').classList.remove('on');
-  openChat();
-});
 $('#chX').addEventListener('click',()=>{ $('#chSheet').classList.remove('on'); document.body.classList.remove('sheet-open'); });
 $('#dBack').addEventListener('click',()=>{ $('#dSheet').classList.remove('on'); document.body.classList.remove('sheet-open'); });
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',closeAll));
@@ -1212,27 +1130,7 @@ async function startChat(){
     return true;
   }catch(e){ $('#welcome').textContent='연결에 실패했어요. 잠시 후 다시 시도해 주세요.'; return false; }
 }
-let cnOK=false;
-try{ cnOK = sessionStorage.getItem('sb_chat_consent')==='1'; }catch(e){}
-
-/* [2026-08-25] 문의하기 → 개인정보 동의 화면을 먼저 띄웁니다. */
-function openConsent(){
-  const t=T[LANG]||T.ko, set=(id,v)=>{ const e=$(id); if(e&&v!=null) e.textContent=v; };
-  const box=$('#cnBox');
-  if(box) box.innerHTML=(t.cnList||[]).map(x=>'<p>'+x+'</p>').join('');
-  set('#cnSub', t.cnSub); set('#cnHours', t.cnHours);
-  set('#cnAgree', t.cnAgree); set('#cnBtn', t.cnBtn); set('#cnMore', t.cnMore);
-  const rm=$('#cnRoom');
-  if(rm) rm.textContent = 'ROOM ' + ((INFO&&INFO.room_number) || '—');
-  const tt=$('#cnTtl'); if(tt&&t.cnTtl) tt.textContent = t.cnTtl;
-  /* [2026-08-25] 언어 버튼 제거 — QR 도착 화면 우측 상단에 이미 있습니다 */
-  const c=$('#cnChk'); if(c) c.checked=false;
-  const b=$('#cnBtn'); if(b) b.disabled=true;
-  openSheet($('#cnSheet'));
-}
-
 async function openChat(){
-  if(!cnOK){ openConsent(); return; }
   openSheet($('#chSheet'));
   if(!chatReady){ chatReady=true; const ok=await startChat(); if(ok!==false) renderFaqChips(); down(); }
   setTimeout(()=>$('#inp').focus(),260);
