@@ -1106,11 +1106,16 @@ const SENDERR={
        net:['发送失败','请检查网络后重试。'] }
 };
 function sysNote(kind){
+  const box=$('#chat'); if(!box) return;
+  /* [2026-08-26] 같은 안내가 연달아 쌓이지 않게 — 도배 시 「잠시만요」가 다섯 줄씩 붙었습니다. */
+  const last=box.lastElementChild;
+  if(last && last.classList && last.classList.contains('sysnote') && last.dataset.k===kind){ down(); return; }
   const t=((SENDERR[LANG]||{})[kind]) || SENDERR.en[kind] || SENDERR.en.net;
   const w=document.createElement('div');
   w.className='sysnote'+(kind==='net'?' plain':'');
+  w.dataset.k=kind;
   w.innerHTML='<b>'+t[0]+'</b>'+t[1];
-  const box=$('#chat'); if(box){ box.appendChild(w); down(); }
+  box.appendChild(w); down();
 }
 async function send(){
   const el=$('#inp'), v=el.value.trim(); if(!v) return;
