@@ -459,6 +459,13 @@ a.row .rust, .locsub .rust{ color:var(--ink) !important; }
   .hello p{ margin:8px 0 0; font-size:12.5px; line-height:1.75; color:var(--sub); }
   /* 지번 주소 */
   .locbox .adj{ font-size:11.5px; color:var(--muted); margin-top:5px; }
+
+  /* [2026-08-26] 전송 거부 안내 — 말풍선이 아니라 가운데 줄로 (호스트 답장처럼 보이면 안 됩니다) */
+  .sysnote{ max-width:88%; margin:14px auto 4px; text-align:center; font-size:12px;
+            line-height:1.7; color:#9a4a32; background:#FBEAE3;
+            border:1px solid #ECCBBD; border-radius:10px; padding:10px 14px; }
+  .sysnote b{ display:block; font-weight:700; margin-bottom:3px; }
+  .sysnote.plain{ color:var(--sub); background:#F1EFE8; border-color:#E3DFD4; }
 </style>
 </head>
 <body>
@@ -1075,12 +1082,53 @@ async function poll(){
   if(!convId) return;
   try{ const {data}=await db.rpc('chat_guest_fetch',{p_conv:convId,p_token:token,p_since:lastTs}); (data||[]).forEach(addMsg); }catch(e){}
 }
+/* [2026-08-26] 전송이 거부되면 가운데 안내줄로 알려줍니다.
+   전에는 supabase 가 에러를 던지지 않고 {error} 로 돌려주는 걸 놓쳐서
+   아무 일도 안 일어난 것처럼 보였습니다. 적은 글도 돌려놓습니다. */
+const SENDERR={
+  ko:{ closed:['아직 문의를 받을 수 없는 시간입니다','체크인 당일부터 이용하실 수 있어요.<br>급하시면 예약하신 채널 메시지로 연락 주세요.'],
+       ended:['문의가 종료된 대화입니다','퇴실 후에는 새 문의를 보내실 수 없어요.'],
+       long:['메시지가 너무 깁니다','2,000자 이내로 나눠서 보내주세요.'],
+       fast:['잠시만요','메시지를 너무 빠르게 보내셨어요. 잠시 후 다시 시도해 주세요.'],
+       busy:['지금은 연결이 어렵습니다','잠시 후 다시 시도해 주세요.'],
+       net:['전송에 실패했습니다','연결을 확인하고 다시 보내주세요.'] },
+  en:{ closed:['Chat is not open yet','You can message us from your check-in date.<br>For anything urgent, please use your booking channel.'],
+       ended:['This chat has ended','You cannot send new messages after check-out.'],
+       long:['Message too long','Please keep it under 2,000 characters.'],
+       fast:['One moment','You are sending too quickly. Please try again shortly.'],
+       busy:['Cannot connect right now','Please try again in a moment.'],
+       net:['Could not send','Please check your connection and try again.'] },
+  ja:{ closed:['まだお問い合わせいただけない時間です','チェックイン当日からご利用いただけます。'],
+       ended:['終了したお問い合わせです','チェックアウト後は送信できません。'],
+       net:['送信できませんでした','接続を確認してもう一度お試しください。'] },
+  zh:{ closed:['目前尚未开放咨询','可从入住当天开始联系我们。'],
+       ended:['该对话已结束','退房后无法发送新消息。'],
+       net:['发送失败','请检查网络后重试。'] }
+};
+function sysNote(kind){
+  const t=((SENDERR[LANG]||{})[kind]) || SENDERR.en[kind] || SENDERR.en.net;
+  const w=document.createElement('div');
+  w.className='sysnote'+(kind==='net'?' plain':'');
+  w.innerHTML='<b>'+t[0]+'</b>'+t[1];
+  const box=$('#chat'); if(box){ box.appendChild(w); down(); }
+}
 async function send(){
   const el=$('#inp'), v=el.value.trim(); if(!v) return;
   if(!convId){ const ok=await startChat(); if(!ok) return; }
   el.value=''; el.style.height='auto'; $('#sendBtn').disabled=true;
-  try{ await db.rpc('chat_guest_send',{p_conv:convId,p_token:token,p_body:v,p_image:null}); await poll(); }
-  catch(e){ el.value=v; }
+  let failed=null;
+  try{
+    const {error}=await db.rpc('chat_guest_send',{p_conv:convId,p_token:token,p_body:v,p_image:null});
+    if(error){
+      const m=String(error.message||'');
+      failed = /too_long/.test(m) ? 'long'
+             : /too_fast/.test(m) ? 'fast'
+             : /forbidden/.test(m) ? 'closed'
+             : 'net';
+    }
+    else await poll();
+  }catch(e){ failed='net'; }
+  if(failed){ el.value=v; sysNote(failed); }
   $('#sendBtn').disabled=false; el.focus();
   /* 메시지를 한 번이라도 보내면 대화 화면으로 전환합니다 (메일 등록 여부와 무관). */
   hideEmailBox();
@@ -1194,9 +1242,20 @@ async function startChat(){
     if(error){ $('#welcome').textContent='연결에 실패했어요. 잠시 후 다시 시도해 주세요.'; return false; }
     if(!data || !data.ok){
       if(data && data.reason==='ended'){ showChatEnded(); return false; }
+      if(data && data.reason==='busy'){ sysNote('busy'); return false; }
       $('#welcome').textContent='연결에 실패했어요. 잠시 후 다시 시도해 주세요.'; return false;
     }
     convId=data.conv; await poll();
+    /* [2026-08-26] 체크인 전(당일 오전 포함)이면 도어락 안내를 미리 알려둡니다. */
+    if(INFO && INFO.staying===false && !document.querySelector('#chat .crow')){
+      const PRE={ ko:'체크인 전에도 문의하실 수 있어요. 도어락 번호는 체크인 당일 따로 보내드립니다.',
+                  en:'You can message us before check-in. The door code is sent separately on the day.',
+                  ja:'チェックイン前でもお問い合わせいただけます。ドアロック番号は当日お送りします。',
+                  zh:'入住前也可以咨询。门锁密码将于入住当天单独发送。' };
+      const d=document.createElement('div'); d.className='sysnote plain';
+      d.innerHTML=esc(PRE[LANG]||PRE.en);
+      const box=$('#chat'); if(box) box.appendChild(d);
+    }
     if(!pollTimer){ pollTimer=setInterval(poll,5000);
       document.addEventListener('visibilitychange',()=>{ if(!document.hidden) poll(); }); }
     return true;
